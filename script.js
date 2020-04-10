@@ -5,20 +5,64 @@ var questionTag = document.getElementById("questions");
 var answerTag = document.getElementById("answers");
 var messages = document.getElementById("messages");
 
+var firstNameInput = document.getElementById("first-name");
+var signUpButton = document.getElementById("sign-up");
+var msgDiv = document.getElementById("msg");
+var userFirstNameSpan = document.getElementById("user-first-name");
+
+function displayMessage(type, message){
+  msgDiv.textContent = message;
+  msgDiv.setAttribute("class", type);
+}
+
+signUpButton.addEventListener("click", function(event){
+  event.preventDefault();
+  var user = {
+    firstName: firstNameInput.value.trim(),
+  };
+
+  if(user.firstName === ""){
+    displayMessage("error", "Frist name no no black");
+  } else {
+    displayMessage("Success", "Registered!")
+  }
+  console.log(user);
+  localStorage.setItem("user", JSON.stringify(user));
+
+  var lastUser = JSON.parse(localStorage.getItem("user"));
+
+  userFirstNameSpan.textContent = lastUser.firstName;
+
+})
+
+
+
+
 // creating a count down timer function
 function startingQuiz (){
-  var timeLeft = 100;
+  reset()
+  var timeLeft = 50;
   var timeInvertal = setInterval(function(){
     h4Tag.textContent = "Time remaining: " + timeLeft;
     timeLeft--;
 
     if (timeLeft === -2){
-      h4Tag.textContent = "Game Over!";
+      reset()
+      messages.textContent = "Game Over!";
       clearInterval(timeInvertal);
+      h4Tag.textContent = "";
     }
+    
+
   }, 1000)
+  
   showQuestion1()
+
 }
+
+
+
+
 // activating start button
 startButton.addEventListener("click", startingQuiz);
 
@@ -44,7 +88,7 @@ function showQuestion1 () {
 
   // creating event listener "click" to display wrong message and cut time.
   answer1Button.addEventListener("click", function(){
-    messages.textContent = "Incorrect! Please try again.";
+  messages.textContent = "Incorrect! Please try again.";
   })
 
   // answer choice button 2
@@ -144,7 +188,7 @@ function showQuestion3 () {
     // creating event listener "click" to display wrong message and cut time.
     answer1Button.addEventListener("click", function(){
     messages.textContent = "Correct!";
-    showQuestion4()
+    showFinalMsg()
     })
   
     // answer choice button 2
@@ -181,6 +225,11 @@ function showQuestion3 () {
 
 
 
+function showFinalMsg(){
+  reset();
+  questionTag.textContent = "Good Job! You pass the quiz!"
+  timeInvertal(stop)
+}
 
 
 

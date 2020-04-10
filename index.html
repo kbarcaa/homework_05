@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="style.css">
-  <title>JS Quiz</title>
+  <title>JS Code Quiz</title>
 </head>
 <body>
 
@@ -14,7 +14,26 @@
 
   <div class="container text-center"> 
 
-    <h1>Welcome to JS Code Quiz!</h1>
+    <h1>Welcome to Code Quiz!</h1>
+
+    <div class="clearfix">
+      <div class="card">
+        <h2>Sign Up</h2>
+        <form method="POST">
+          <div class="input-group">
+            <label for="first-name">Name</label>
+            <input type="text" name="first-name" id="first-name" placeholder="Thanos" />
+          </div>
+          <div id="msg"></div>
+          <button id="sign-up">Sign Up</button>
+        </form>
+      </div>
+      <div class="card">
+        <h2>Your Best time: </h2>
+        <p><strong>Name:</strong> <span id="user-first-name"></span></p>
+      </div>
+    </div>
+    <hr>
 
     <button id="startButton">Start</button>
 
@@ -27,6 +46,8 @@
     
     <hr>
     <h4 id="messages"></h4>
+
+
 
   </div>
 
