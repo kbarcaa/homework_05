@@ -4,17 +4,25 @@ var startButton = document.getElementById("startButton");
 var questionTag = document.getElementById("questions");
 var answerTag = document.getElementById("answers");
 var messages = document.getElementById("messages");
-
 var firstNameInput = document.getElementById("first-name");
 var signUpButton = document.getElementById("sign-up");
 var msgDiv = document.getElementById("msg");
 var userFirstNameSpan = document.getElementById("user-first-name");
+var scoreTag = document.getElementById("scoreTag");
+// starting time
+var timeInvertal;
+var timeLeft;
+// starting score
+var score = 0;
 
+
+
+// function to catch "blank" as a name. & activate message IF left blank.
 function displayMessage(type, message){
   msgDiv.textContent = message;
   msgDiv.setAttribute("class", type);
 }
-
+// NAME sign up part
 signUpButton.addEventListener("click", function(event){
   event.preventDefault();
   var user = {
@@ -22,61 +30,71 @@ signUpButton.addEventListener("click", function(event){
   };
 
   if(user.firstName === ""){
-    displayMessage("error", "Frist name no no black");
+    displayMessage("error", "Name cannot be blank");
   } else {
     displayMessage("Success", "Registered!")
   }
   console.log(user);
   localStorage.setItem("user", JSON.stringify(user));
-
   var lastUser = JSON.parse(localStorage.getItem("user"));
-
   userFirstNameSpan.textContent = lastUser.firstName;
-
 })
 
 
 
-
-// creating a count down timer function
+// function to start timer. & It will activate function to show question 1
 function startingQuiz (){
-  reset()
-  var timeLeft = 50;
-  var timeInvertal = setInterval(function(){
+  
+  timeLeft = 50;
+  timeInvertal = setInterval(function(){
     h4Tag.textContent = "Time remaining: " + timeLeft;
     timeLeft--;
 
-    if (timeLeft === -2){
+    if (timeLeft <= 0){
       reset()
       messages.textContent = "Game Over!";
       clearInterval(timeInvertal);
       h4Tag.textContent = "";
     }
-    
-
   }, 1000)
-  
   showQuestion1()
-
 }
-
 
 
 
 // activating start button
 startButton.addEventListener("click", startingQuiz);
 
-
+// function that cuts time by 10 sec. Activated when wrong answer button is chosen.
+function cutTime (){
+  timeLeft -= 10;
+}
+// function to add score by 10. Activated when correct answer button is chosen.
+function addScore (){
+  
+  score += 10;
+  scoreTag.textContent = score
+}
+// function to clear our quetions, answers, and messages for next questions to appear.
 function reset (){
-
   questionTag.textContent = "";
   answerTag.textContent = "";
   messages.textContent = "";
 };
+// function to display final message & alert message & and it will stop time
+function showFinalMsg(){
+  reset();
+  questionTag.textContent = "Good Job! You pass the quiz!";
+  clearInterval(timeInvertal);
+}
 
 
-//creating showQuestion1 function
 
+
+
+
+
+// function to display 1st question
 function showQuestion1 () {
 
   questionTag.textContent = "Question 1: What is DOM?";
@@ -85,46 +103,46 @@ function showQuestion1 () {
   var answer1Button = document.createElement("button");
   answer1Button.textContent = "Dominos' Order Menu";
   answerTag.appendChild(answer1Button);
-
   // creating event listener "click" to display wrong message and cut time.
   answer1Button.addEventListener("click", function(){
   messages.textContent = "Incorrect! Please try again.";
+  cutTime();
   })
 
   // answer choice button 2
   var answer2Button = document.createElement("button");
   answer2Button.textContent = "Doctrine of Monarch";
   answerTag.appendChild(answer2Button);
-  
   // creating event listener "click" to display wrong message and cut time.
   answer2Button.addEventListener("click", function(){
   messages.textContent = "Incorrect! Please try again.";
+  cutTime();
   })
-
 
   // answer choice button 3
   var answer3Button = document.createElement("button");
   answer3Button.textContent = "Doughnut on Milk";
   answerTag.appendChild(answer3Button);
-  
   // creating event listener "click" to display wrong message and cut time.
   answer3Button.addEventListener("click", function(){
   messages.textContent = "Incorrect! Please try again.";
+  cutTime();
   })
 
   // answer choice button 4
   var answer4Button = document.createElement("button");
   answer4Button.textContent = "Document Object Model";
   answerTag.appendChild(answer4Button);
-
   // creating event listener "click" to display wrong message and cut time.
-  answer4Button.addEventListener("click", function(){
+  answer4Button.addEventListener("click", function(event){
+    event.preventDefault();
     messages.textContent = "Correct!";
+    addScore();
     showQuestion2()
   })
 
 }
-// Question 2
+// function to display 2nd question
 function showQuestion2 () {
   // running a reset function to clear out previous stuff
   reset();
@@ -138,7 +156,8 @@ function showQuestion2 () {
   
     // creating event listener "click" to display wrong message and cut time.
     answer1Button.addEventListener("click", function(){
-      messages.textContent = "Incorrect! Please try again.";
+    messages.textContent = "Incorrect! Please try again.";
+    cutTime();
     })
   
     // answer choice button 2
@@ -149,8 +168,8 @@ function showQuestion2 () {
     // creating event listener "click" to display wrong message and cut time.
     answer2Button.addEventListener("click", function(){
     messages.textContent = "Incorrect! Please try again.";
+    cutTime();
     })
-  
   
     // answer choice button 3
     var answer3Button = document.createElement("button");
@@ -160,7 +179,8 @@ function showQuestion2 () {
     // creating event listener "click" to display wrong message and cut time.
     answer3Button.addEventListener("click", function(){
     messages.textContent = "Corret!";
-    showQuestion3()
+    showQuestion3();
+    addScore();
     })
   
     // answer choice button 4
@@ -171,9 +191,10 @@ function showQuestion2 () {
     // creating event listener "click" to display wrong message and cut time.
     answer4Button.addEventListener("click", function(){
     messages.textContent = "Incorrect! Please try again.";
+    cutTime();
     }) 
 }
-// Question 3
+// function to display 3rd question
 function showQuestion3 () {
   // running a reset function to clear out previous stuff
   reset();
@@ -188,7 +209,8 @@ function showQuestion3 () {
     // creating event listener "click" to display wrong message and cut time.
     answer1Button.addEventListener("click", function(){
     messages.textContent = "Correct!";
-    showFinalMsg()
+    showFinalMsg();
+    addScore();
     })
   
     // answer choice button 2
@@ -199,9 +221,9 @@ function showQuestion3 () {
     // creating event listener "click" to display wrong message and cut time.
     answer2Button.addEventListener("click", function(){
     messages.textContent = "Incorrect! Please try again.";
+    cutTime();
     })
-  
-  
+
     // answer choice button 3
     var answer3Button = document.createElement("button");
     answer3Button.textContent = "Von Arthur Ramsey";
@@ -210,6 +232,7 @@ function showQuestion3 () {
     // creating event listener "click" to display wrong message and cut time.
     answer3Button.addEventListener("click", function(){
     messages.textContent = "Incorrect! Please try again.";
+    cutTime();
     })
   
     // answer choice button 4
@@ -219,17 +242,14 @@ function showQuestion3 () {
   
     // creating event listener "click" to display wrong message and cut time.
     answer4Button.addEventListener("click", function(){
-    messages.textContent = "Soccer <3. But No. Sorry try again";
+    messages.textContent = "Soccer <3. No Cut time for this selection.Try again";
     }) 
-}
+};
 
 
 
-function showFinalMsg(){
-  reset();
-  questionTag.textContent = "Good Job! You pass the quiz!"
-  timeInvertal(stop)
-}
+
+
 
 
 

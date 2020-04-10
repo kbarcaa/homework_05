@@ -21,6 +21,7 @@ button {
 body {
   font-size: 16px;
   font-family: "Roboto", sans-serif;
+  margin: 1rem;
 }
 
 h2 {
