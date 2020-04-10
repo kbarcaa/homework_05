@@ -44,14 +44,14 @@ signUpButton.addEventListener("click", function(event){
 
 // function to start timer. & It will activate function to show question 1
 function startingQuiz (){
-  
+  resetScore();
   timeLeft = 50;
   timeInvertal = setInterval(function(){
     h4Tag.textContent = "Time remaining: " + timeLeft;
     timeLeft--;
 
     if (timeLeft <= 0){
-      reset()
+      reset();
       messages.textContent = "Game Over!";
       clearInterval(timeInvertal);
       h4Tag.textContent = "";
@@ -71,10 +71,15 @@ function cutTime (){
 }
 // function to add score by 10. Activated when correct answer button is chosen.
 function addScore (){
-  
   score += 10;
   scoreTag.textContent = score
 }
+// function to reset score to 0
+function resetScore (){
+  score = 0;
+  scoreTag.textContent = score
+}
+
 // function to clear our quetions, answers, and messages for next questions to appear.
 function reset (){
   questionTag.textContent = "";
@@ -87,7 +92,6 @@ function showFinalMsg(){
   questionTag.textContent = "Good Job! You pass the quiz!";
   clearInterval(timeInvertal);
 }
-
 
 
 
