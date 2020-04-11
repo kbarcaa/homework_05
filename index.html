@@ -10,15 +10,13 @@
 </head>
 <body>
 
-
-
   <div class="container text-center"> 
 
     <h1>Welcome to Code Quiz!</h1>
 
     <div class="clearfix">
       <div class="card">
-        <h2>Sign Up</h2>
+        <h2 id="signup">Sign Up</h2>
         <form method="POST">
           <div class="input-group">
             <label for="first-name">Name</label>
@@ -29,33 +27,26 @@
         </form>
       </div>
       <div class="card">
-        <h2 id=>Your score: <span id ="scoreTag"> </span> </h2>
+        <h2 id="signup">Your score: <span id ="scoreTag"> </span> </h2>
         <p><strong>Name:</strong> <span id="user-first-name"></span></p>
       </div>
+      <div class="card">
+      <h4 id="timeInSeconds"></h4>
+      </div>
     </div>
+    
     <hr>
-
     <button id="startButton">Start</button>
-
-    <h4 id="timeInSeconds"></h4>
+    
     <hr>
-
     <h3 id="questions"></h3>
-    
     <h3 id="answers"></h3>
-    
     <hr>
     <h4 id="messages"></h4>
 
-
-
   </div>
 
-
-
-
-
-
   <script src = "script.js"></script>
+
 </body>
 </html>

@@ -9,20 +9,45 @@ var signUpButton = document.getElementById("sign-up");
 var msgDiv = document.getElementById("msg");
 var userFirstNameSpan = document.getElementById("user-first-name");
 var scoreTag = document.getElementById("scoreTag");
-// starting time
 var timeInvertal;
 var timeLeft;
-// starting score
 var score = 0;
 
+// function that cuts time by 10 sec. Activated when wrong answer button is chosen.
+function cutTime (){
+  timeLeft -= 10;
+}
+// function to add score by 10. Activated when correct answer button is chosen.
+function addScore (){
+  score += 10;
+  scoreTag.textContent = score
+}
+// function to reset score to 0
+function resetScore (){
+  score = 0;
+  scoreTag.textContent = score
+}
+// function to clear our quetions, answers, and messages for next questions to appear.
+function reset (){
+  questionTag.textContent = "";
+  answerTag.textContent = "";
+  messages.textContent = "";
+};
+// function to display final message & alert message & and it will stop time
+function showFinalMsg(){
+  reset();
+  questionTag.textContent = "Good Job! You pass the quiz!";
+  clearInterval(timeInvertal);
+}
 
 
-// function to catch "blank" as a name. & activate message IF left blank.
+// name sign up section of the page
+// function to catch "blank" as a name. Activate message IF left blank.
 function displayMessage(type, message){
   msgDiv.textContent = message;
   msgDiv.setAttribute("class", type);
 }
-// NAME sign up part
+
 signUpButton.addEventListener("click", function(event){
   event.preventDefault();
   var user = {
@@ -40,12 +65,13 @@ signUpButton.addEventListener("click", function(event){
   userFirstNameSpan.textContent = lastUser.firstName;
 })
 
-
-
-// function to start timer. & It will activate function to show question 1
-function startingQuiz (){
+// function to start timer and activate function to show Question 1
+function startingQuiz (event){
+  event.preventDefault();
+  reset();
   resetScore();
-  timeLeft = 50;
+  
+  timeLeft = 100;
   timeInvertal = setInterval(function(){
     h4Tag.textContent = "Time remaining: " + timeLeft;
     timeLeft--;
@@ -56,214 +82,147 @@ function startingQuiz (){
       clearInterval(timeInvertal);
       h4Tag.textContent = "";
     }
-  }, 1000)
-  showQuestion1()
+  }, 1000);
+  showQuestion1();
 }
-
-
 
 // activating start button
 startButton.addEventListener("click", startingQuiz);
 
-// function that cuts time by 10 sec. Activated when wrong answer button is chosen.
-function cutTime (){
-  timeLeft -= 10;
-}
-// function to add score by 10. Activated when correct answer button is chosen.
-function addScore (){
-  score += 10;
-  scoreTag.textContent = score
-}
-// function to reset score to 0
-function resetScore (){
-  score = 0;
-  scoreTag.textContent = score
-}
-
-// function to clear our quetions, answers, and messages for next questions to appear.
-function reset (){
-  questionTag.textContent = "";
-  answerTag.textContent = "";
-  messages.textContent = "";
-};
-// function to display final message & alert message & and it will stop time
-function showFinalMsg(){
-  reset();
-  questionTag.textContent = "Good Job! You pass the quiz!";
-  clearInterval(timeInvertal);
-}
-
-
-
-
-
-
-// function to display 1st question
+// function to display Question 1
 function showQuestion1 () {
-
   questionTag.textContent = "Question 1: What is DOM?";
-// answer buttons
-  // answer choice button 1
+
+  // answer button 1
   var answer1Button = document.createElement("button");
   answer1Button.textContent = "Dominos' Order Menu";
   answerTag.appendChild(answer1Button);
-  // creating event listener "click" to display wrong message and cut time.
+  // function to show incorrect message
   answer1Button.addEventListener("click", function(){
-  messages.textContent = "Incorrect! Please try again.";
-  cutTime();
+    messages.textContent = "Incorrect! Please try again.";
+    cutTime();
   })
-
-  // answer choice button 2
+  // answer button 2
   var answer2Button = document.createElement("button");
   answer2Button.textContent = "Doctrine of Monarch";
   answerTag.appendChild(answer2Button);
-  // creating event listener "click" to display wrong message and cut time.
+  // function to show incorrect message
   answer2Button.addEventListener("click", function(){
-  messages.textContent = "Incorrect! Please try again.";
-  cutTime();
+    messages.textContent = "Incorrect! Please try again.";
+    cutTime();
   })
-
-  // answer choice button 3
+  // answer button 3
   var answer3Button = document.createElement("button");
   answer3Button.textContent = "Doughnut on Milk";
   answerTag.appendChild(answer3Button);
-  // creating event listener "click" to display wrong message and cut time.
+  // function to show incorrect message
   answer3Button.addEventListener("click", function(){
-  messages.textContent = "Incorrect! Please try again.";
-  cutTime();
+    messages.textContent = "Incorrect! Please try again.";
+    cutTime();
   })
-
-  // answer choice button 4
+  // answer button 4
   var answer4Button = document.createElement("button");
   answer4Button.textContent = "Document Object Model";
   answerTag.appendChild(answer4Button);
-  // creating event listener "click" to display wrong message and cut time.
-  answer4Button.addEventListener("click", function(event){
-    event.preventDefault();
+  // function to show correct message and show Question 2
+  answer4Button.addEventListener("click", function(){
     messages.textContent = "Correct!";
     addScore();
-    showQuestion2()
+    showQuestion2();
   })
-
 }
-// function to display 2nd question
-function showQuestion2 () {
-  // running a reset function to clear out previous stuff
-  reset();
 
-    questionTag.textContent = "Question 2: Which of the following represents an Array?";
-  // answer buttons
-    // answer choice button 1
-    var answer1Button = document.createElement("button");
-    answer1Button.textContent = "ET, phone , home";
-    answerTag.appendChild(answer1Button);
-  
-    // creating event listener "click" to display wrong message and cut time.
-    answer1Button.addEventListener("click", function(){
+// function to display Question 2
+function showQuestion2 () {
+  // running a reset function to clear out previous q & a
+  reset();
+  questionTag.textContent = "Question 2: Which of the following represents an Array?";
+
+  // answer button 1
+  var answer1Button = document.createElement("button");
+  answer1Button.textContent = "ET, phone , home";
+  answerTag.appendChild(answer1Button);
+  // function to show incorrect message
+  answer1Button.addEventListener("click", function(){
     messages.textContent = "Incorrect! Please try again.";
     cutTime();
-    })
-  
-    // answer choice button 2
-    var answer2Button = document.createElement("button");
-    answer2Button.textContent = "{ET, phone, home}";
-    answerTag.appendChild(answer2Button);
-    
-    // creating event listener "click" to display wrong message and cut time.
+  })
+  // answer button 2
+  var answer2Button = document.createElement("button");
+  answer2Button.textContent = "{ET, phone, home}";
+  answerTag.appendChild(answer2Button);
+  // function to show incorrect message
     answer2Button.addEventListener("click", function(){
     messages.textContent = "Incorrect! Please try again.";
     cutTime();
-    })
-  
-    // answer choice button 3
-    var answer3Button = document.createElement("button");
-    answer3Button.textContent = "[ET, phone, home]";
-    answerTag.appendChild(answer3Button);
-    
-    // creating event listener "click" to display wrong message and cut time.
-    answer3Button.addEventListener("click", function(){
+  })
+  // answer button 3
+  var answer3Button = document.createElement("button");
+  answer3Button.textContent = "[ET, phone, home]";
+  answerTag.appendChild(answer3Button); 
+  // function to show correct message and show Question 3
+  answer3Button.addEventListener("click", function(){
     messages.textContent = "Corret!";
     showQuestion3();
     addScore();
-    })
-  
-    // answer choice button 4
-    var answer4Button = document.createElement("button");
-    answer4Button.textContent = "(ET, phone, home)";
-    answerTag.appendChild(answer4Button);
-  
-    // creating event listener "click" to display wrong message and cut time.
-    answer4Button.addEventListener("click", function(){
+  })
+  // answer button 4
+  var answer4Button = document.createElement("button");
+  answer4Button.textContent = "(ET, phone, home)";
+  answerTag.appendChild(answer4Button);
+  // function to show incorrect message
+  answer4Button.addEventListener("click", function(){
     messages.textContent = "Incorrect! Please try again.";
     cutTime();
-    }) 
+  }) 
 }
-// function to display 3rd question
-function showQuestion3 () {
-  // running a reset function to clear out previous stuff
-  reset();
 
-    questionTag.textContent = "Question 3: What does 'var' stand for?";
-  // answer buttons
-    // answer choice button 1
-    var answer1Button = document.createElement("button");
-    answer1Button.textContent = "variable";
-    answerTag.appendChild(answer1Button);
+// function to display Question 3
+function showQuestion3 () {
+  // running a reset function to clear out previous q & a
+  reset();
+  questionTag.textContent = "Question 3: What does 'var' stand for?";
   
-    // creating event listener "click" to display wrong message and cut time.
-    answer1Button.addEventListener("click", function(){
+  // answer button 1
+  var answer1Button = document.createElement("button");
+  answer1Button.textContent = "variable";
+  answerTag.appendChild(answer1Button);
+  // function to show correct message and show Final message
+  answer1Button.addEventListener("click", function(){
     messages.textContent = "Correct!";
     showFinalMsg();
     addScore();
-    })
-  
-    // answer choice button 2
-    var answer2Button = document.createElement("button");
-    answer2Button.textContent = "various";
-    answerTag.appendChild(answer2Button);
-    
-    // creating event listener "click" to display wrong message and cut time.
-    answer2Button.addEventListener("click", function(){
+  })
+  // answer button 2
+  var answer2Button = document.createElement("button");
+  answer2Button.textContent = "various";
+  answerTag.appendChild(answer2Button);
+  // function to show incorrect message
+  answer2Button.addEventListener("click", function(){
     messages.textContent = "Incorrect! Please try again.";
     cutTime();
-    })
-
-    // answer choice button 3
-    var answer3Button = document.createElement("button");
-    answer3Button.textContent = "Von Arthur Ramsey";
-    answerTag.appendChild(answer3Button);
-    
-    // creating event listener "click" to display wrong message and cut time.
-    answer3Button.addEventListener("click", function(){
+  })
+  // answer button 3
+  var answer3Button = document.createElement("button");
+  answer3Button.textContent = "Von Arthur Ramsey";
+  answerTag.appendChild(answer3Button);
+  // function to show incorrect message
+  answer3Button.addEventListener("click", function(){
     messages.textContent = "Incorrect! Please try again.";
     cutTime();
-    })
-  
-    // answer choice button 4
-    var answer4Button = document.createElement("button");
-    answer4Button.textContent = "Video Assistant Refree";
-    answerTag.appendChild(answer4Button);
-  
-    // creating event listener "click" to display wrong message and cut time.
-    answer4Button.addEventListener("click", function(){
+  })
+  // answer button 4
+  var answer4Button = document.createElement("button");
+  answer4Button.textContent = "Video Assistant Refree";
+  answerTag.appendChild(answer4Button);
+  // function to show incorrect message
+  answer4Button.addEventListener("click", function(){
     messages.textContent = "Soccer <3. No Cut time for this selection.Try again";
-    }) 
+  }) 
 };
 
 
-
-
-
-
-
-
-
-// calling nextButton and activating it
-
-// var nextButton = document.getElementById("nextButton");
-// nextButton.addEventListener("click", function(event));
-
-// gonna make a function showQuestions to show up questions
+// attemt at object.Array looping
 
 // creating questionArray
 
